@@ -1,0 +1,78 @@
+# postforme-mcp-pro
+
+> The most complete Post for Me MCP server — publish, schedule, edit, delete and analyze social posts across 9 platforms from any MCP client.
+
+postforme-mcp-pro is an MCP server that lets Claude Code, Cursor and Claude Desktop control the [Post for Me](https://www.postforme.dev/) social media API via the Model Context Protocol. It exposes 27 typed tools (one per operation) plus a `postforme_raw` escape hatch, covering Instagram, Facebook, TikTok, YouTube, X, LinkedIn, Pinterest, Bluesky and Threads.
+
+Unlike the official Post for Me MCP (which exposes only a doc-search + sandboxed code-execution tool), every operation here is a first-class, directly-callable tool.
+
+## Tools (27 + postforme_raw)
+
+Social accounts:
+- `list_social_accounts`: list connected accounts (filter by platform/username); source of the account ids used by posts.
+- `get_social_account`: get one account by id.
+- `create_social_account`: connect an account from supplied credentials.
+- `update_social_account`: update stored credentials/metadata.
+- `create_auth_url`: start the OAuth connect flow (returns a URL to authorize a new account).
+- `disconnect_social_account`: revoke access for an account.
+- `list_account_feeds`: ANALYTICS — recent feed + engagement metrics for an account.
+
+Posts:
+- `create_post`: create a post (publish now, schedule, or draft) across accounts/platforms.
+- `publish_now`: shortcut to publish immediately.
+- `schedule_post`: shortcut to schedule for an ISO-8601 time.
+- `create_draft`: shortcut to save as a draft.
+- `get_post`: get a post by id.
+- `list_posts`: list posts (filter by status).
+- `update_post`: edit caption/media/accounts/schedule/config.
+- `reschedule_post`: shortcut to change a scheduled time.
+- `delete_post`: delete a post.
+
+Analytics & previews:
+- `list_post_results`: ANALYTICS — per-platform publish outcomes (success/error, native URLs).
+- `get_post_result`: one post result by id.
+- `create_post_preview`: preview how a post renders per platform (non-mutating).
+
+Media:
+- `create_media_upload_url`: get a signed upload URL (2-step flow).
+- `upload_media`: one-step upload of a local file or remote URL; returns a media_url to attach.
+
+Webhooks:
+- `list_webhooks`, `get_webhook`, `create_webhook`, `update_webhook`, `delete_webhook`.
+
+Escape hatch:
+- `postforme_raw`: call any /v1 endpoint directly (method, path, params, body).
+
+## Quick install
+
+Add to your claude_desktop_config.json or .mcp.json:
+```json
+{
+  "mcpServers": {
+    "postforme": {
+      "command": "npx",
+      "args": ["-y", "postforme-mcp-pro"],
+      "env": { "POSTFORME_API_KEY": "pfm_your_key" }
+    }
+  }
+}
+```
+
+## Environment variables
+
+- `POSTFORME_API_KEY` (required): Post for Me API key (Dashboard → Settings → API Keys).
+- `POSTFORME_READONLY` (optional): `true` blocks all write tools.
+- `POSTFORME_BASE_URL` (optional): override API base URL for self-hosted deployments.
+- `POSTFORME_DISABLE_RAW` (optional): `true` removes the postforme_raw tool.
+- `POSTFORME_MEDIA_DIR` (optional): restrict upload_media local file reads to this directory.
+
+## Known limitations
+
+- Publishing is outward-facing (posts to real accounts) — confirm content before calling write tools.
+- platform_configurations exposes documented common fields per platform and stays permissive for new options; use postforme_raw for anything not yet modeled.
+
+## Links
+
+- GitHub: https://github.com/helbertparanhos/postforme-mcp-pro
+- npm: https://www.npmjs.com/package/postforme-mcp-pro
+- Post for Me API docs: https://api.postforme.dev/docs

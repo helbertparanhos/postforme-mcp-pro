@@ -1,0 +1,21 @@
+{
+  "name": "postforme-mcp-pro",
+  "title": "Post for Me MCP Pro",
+  "type": "mcp-server",
+  "description": "MCP server com 27+ tools tipadas para publicar, agendar, editar, excluir e analisar posts em 9 redes sociais via a API do Post for Me, mais postforme_raw e readonly mode.",
+  "status": "stable",
+  "version": "1.0.0",
+  "visibility": "public",
+  "install": "npx -y postforme-mcp-pro",
+  "homepage": "https://www.npmjs.com/package/postforme-mcp-pro",
+  "language": "typescript",
+  "features": [
+    "Publica, agenda e cria rascunhos em Instagram, Facebook, TikTok, YouTube, X, LinkedIn, Pinterest, Bluesky e Threads",
+    "Analytics via social-post-results e feeds de conta com métricas de engajamento",
+    "Upload de mídia em 1 passo (upload_media), gestão de contas/OAuth, previews, webhooks e postforme_raw"
+  ],
+  "depends_on": [],
+  "tags": ["mcp", "social-media", "postforme", "scheduling", "analytics", "instagram", "tiktok", "automation"],
+  "owner": "Helbert Paranhos / Strat Academy",
+  "updated": "2026-06-10"
+}

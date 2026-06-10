@@ -1,0 +1,34 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.helbertparanhos/postforme-mcp-pro",
+  "description": "Publish, schedule and analyze social posts across 9 platforms via the Post for Me API.",
+  "title": "Post for Me MCP Pro",
+  "version": "1.0.0",
+  "repository": {
+    "url": "https://github.com/helbertparanhos/postforme-mcp-pro",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "postforme-mcp-pro",
+      "version": "1.0.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "POSTFORME_API_KEY",
+          "description": "Post for Me API key (Dashboard - Settings - API Keys).",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "POSTFORME_READONLY",
+          "description": "Set to 'true' to block all write tools.",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}

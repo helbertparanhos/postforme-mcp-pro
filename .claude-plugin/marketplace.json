@@ -1,0 +1,30 @@
+{
+  "name": "postforme-mcp-pro",
+  "displayName": "Post for Me MCP Pro",
+  "description": "27 typed tools to publish, schedule, edit, delete and analyze social posts across 9 platforms via the Post for Me API, plus postforme_raw and a readonly safety mode.",
+  "version": "1.0.0",
+  "author": "helbertparanhos",
+  "license": "MIT",
+  "category": "Social Media",
+  "tags": ["mcp", "postforme", "social-media", "scheduling", "analytics", "instagram", "tiktok", "automation"],
+  "repository": "https://github.com/helbertparanhos/postforme-mcp-pro",
+  "npm": "postforme-mcp-pro",
+  "tools": 27,
+  "transport": "stdio",
+  "auth": "env",
+  "envVars": [
+    {
+      "name": "POSTFORME_API_KEY",
+      "description": "Post for Me API key (Dashboard → Settings → API Keys).",
+      "required": true,
+      "sensitive": true
+    },
+    {
+      "name": "POSTFORME_READONLY",
+      "description": "Set to 'true' to block all write tools (analytics-only sessions).",
+      "required": false,
+      "sensitive": false
+    }
+  ],
+  "quickstart": { "command": "npx", "args": ["-y", "postforme-mcp-pro"] }
+}

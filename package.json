@@ -1,0 +1,70 @@
+{
+  "name": "postforme-mcp-pro",
+  "version": "1.0.0",
+  "mcpName": "io.github.helbertparanhos/postforme-mcp-pro",
+  "description": "The most complete Post for Me MCP server — 27+ typed tools covering the entire Post for Me social media API (posts, scheduling, drafts, media upload, analytics, social accounts, previews, webhooks) across 9 platforms (Instagram, Facebook, TikTok, YouTube, X, LinkedIn, Pinterest, Bluesky, Threads), plus a postforme_raw escape hatch and a readonly safety mode.",
+  "type": "module",
+  "bin": {
+    "postforme-mcp-pro": "dist/index.js"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md",
+    ".env.example"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "start": "node dist/index.js",
+    "inspector": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "postforme",
+    "post-for-me",
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "claude-code",
+    "ai",
+    "social-media",
+    "social-media-api",
+    "instagram",
+    "tiktok",
+    "twitter",
+    "x",
+    "linkedin",
+    "facebook",
+    "youtube",
+    "pinterest",
+    "bluesky",
+    "threads",
+    "scheduling",
+    "automation"
+  ],
+  "author": "Helbert Paranhos / Strat Academy <contato@helbertparanhos.com.br>",
+  "license": "MIT",
+  "homepage": "https://github.com/helbertparanhos/postforme-mcp-pro",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/helbertparanhos/postforme-mcp-pro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/helbertparanhos/postforme-mcp-pro/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "zod": "^3.24.1",
+    "zod-to-json-schema": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "typescript": "^5.7.3"
+  }
+}

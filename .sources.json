@@ -1,0 +1,56 @@
+{
+  "version": "1.0.0",
+  "created_at": "2026-06-10T00:00:00Z",
+  "project_type": "mcp-typescript",
+  "internal": false,
+  "references": [
+    {
+      "url": "https://www.postforme.dev/",
+      "fetched_at": "2026-06-10T00:00:00Z",
+      "description": "Site oficial do Post for Me",
+      "tools_found": []
+    },
+    {
+      "url": "https://www.postforme.dev/open-source-social-media-api",
+      "fetched_at": "2026-06-10T00:00:00Z",
+      "description": "Visão geral da API open-source e plataformas suportadas (9 redes)",
+      "tools_found": ["multi-platform posting", "scheduling", "media", "oauth"]
+    },
+    {
+      "url": "https://api.postforme.dev/docs",
+      "fetched_at": "2026-06-10T00:00:00Z",
+      "description": "API reference (Scalar) — base https://api.postforme.dev, auth Bearer, prefixo /v1",
+      "tools_found": ["social-posts", "social-accounts", "social-post-results", "social-account-feeds", "social-post-previews", "media/create-upload-url", "webhooks"]
+    },
+    {
+      "url": "https://github.com/DayMoonDevelopment/post-for-me",
+      "fetched_at": "2026-06-10T00:00:00Z",
+      "description": "Monorepo open-source do Post for Me",
+      "tools_found": []
+    },
+    {
+      "url": "https://github.com/DayMoonDevelopment/post-for-me-typescript",
+      "fetched_at": "2026-06-10T00:00:00Z",
+      "description": "SDK TypeScript oficial — mapa completo de recursos/métodos (api.md)",
+      "tools_found": ["socialPosts.create/retrieve/update/list/delete", "socialAccounts.create/retrieve/update/list/createAuthURL/disconnect", "socialPostResults.retrieve/list", "socialAccountFeeds.list", "socialPostPreviews.create", "media.createUploadURL", "webhooks.create/retrieve/update/list/delete"]
+    },
+    {
+      "url": "https://github.com/DayMoonDevelopment/post-for-me-typescript/tree/main/packages/mcp-server",
+      "fetched_at": "2026-06-10T00:00:00Z",
+      "description": "MCP oficial (code-mode): apenas 2 tools (doc-search + code-execution sandbox). Diferencial do nosso: tools tipadas 1-por-operação.",
+      "tools_found": ["docs-search", "code-execution"]
+    },
+    {
+      "url": "https://github.com/DayMoonDevelopment/post-for-me-skills/blob/main/skills/post-for-me-ts-sdk/SKILL.md",
+      "fetched_at": "2026-06-10T00:00:00Z",
+      "description": "Skill oficial de documentação do SDK TS",
+      "tools_found": []
+    },
+    {
+      "url": "https://github.com/DayMoonDevelopment/post-for-me-go",
+      "fetched_at": "2026-06-10T00:00:00Z",
+      "description": "SDK Go oficial (referência de superfície da API)",
+      "tools_found": []
+    }
+  ]
+}
