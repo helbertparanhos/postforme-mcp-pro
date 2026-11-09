@@ -53,9 +53,29 @@ export function toListing(def: AnyToolDef) {
   };
 }
 
+/**
+ * Account OAuth tokens come back nested in many responses (every post carries its social_accounts). They are
+ * masked before reaching the model so they never land in transcripts or logs. Set POSTFORME_SHOW_TOKENS=1 to
+ * see them.
+ */
+const TOKEN_KEYS = new Set(["access_token", "refresh_token"]);
+function maskTokens(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(maskTokens);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>).map(([k, v]) => [
+        k,
+        TOKEN_KEYS.has(k) && typeof v === "string" && v ? "[hidden]" : maskTokens(v),
+      ])
+    );
+  }
+  return value;
+}
+
 /** Wrap arbitrary data into the MCP text-content result shape. */
 export function ok(data: unknown): ToolResult {
-  const text = typeof data === "string" ? data : JSON.stringify(data, null, 2);
+  const safe = process.env.POSTFORME_SHOW_TOKENS === "1" ? data : maskTokens(data);
+  const text = typeof safe === "string" ? safe : JSON.stringify(safe, null, 2);
   return { content: [{ type: "text", text }] };
 }
 
