@@ -58,6 +58,7 @@ Copy `.env.example` → `.env` and set your key:
 | `POSTFORME_API_KEY` | ✅ | Your Post for Me API key (Dashboard → Settings → API Keys). |
 | `POSTFORME_BASE_URL` | — | Override the API base URL for self-hosted/open-source deployments. Default `https://api.postforme.dev`. |
 | `POSTFORME_READONLY` | — | `true` blocks all write tools (only reads + `postforme_raw` GET run). |
+| `POSTFORME_SHOW_TOKENS` | — | `1` shows account `access_token`/`refresh_token` in responses (masked as `[hidden]` by default). |
 | `POSTFORME_DISABLE_RAW` | — | `true` removes the `postforme_raw` tool. |
 | `POSTFORME_TIMEOUT_MS` | — | Per-request timeout (default `60000`). |
 | `POSTFORME_MAX_RETRIES` | — | Max retries on 429/5xx/network (default `3`). |
