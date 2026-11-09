@@ -46,6 +46,37 @@ function buildPostBody(args: Record<string, any>): Record<string, unknown> {
   return body;
 }
 
+/** Media fields the API accepts back on PUT (GET adds index/alt_text/nulls). */
+const MEDIA_FIELDS = ["url", "thumbnail_url", "thumbnail_timestamp_ms", "tags", "skip_processing"];
+function cleanMedia(media: any): any[] | undefined {
+  if (!Array.isArray(media)) return undefined;
+  return media.map((m) =>
+    Object.fromEntries(MEDIA_FIELDS.filter((k) => m?.[k] !== undefined && m?.[k] !== null).map((k) => [k, m[k]]))
+  );
+}
+
+/**
+ * PUT /v1/social-posts/:id REPLACES the whole post: any field left out is wiped (external_id, per-platform
+ * captions, media...). So every update reads the live post first and sends the full body, with only the
+ * requested fields changed. `status: "draft"` maps to the API's `isDraft` flag.
+ */
+async function mergedUpdate(client: any, id: string, changes: Record<string, any>) {
+  const current: any = await client.get(`/v1/social-posts/${encodeURIComponent(id)}`);
+  const { status, ...rest } = changes;
+  const body: Record<string, unknown> = buildPostBody({
+    caption: current.caption ?? undefined,
+    social_accounts: (current.social_accounts ?? []).map((a: any) => (typeof a === "string" ? a : a.id)),
+    media: cleanMedia(current.media),
+    platform_configurations: current.platform_configurations ?? undefined,
+    account_configurations: current.account_configurations ?? undefined,
+    external_id: current.external_id ?? undefined,
+    scheduled_at: current.scheduled_at ?? undefined,
+  });
+  Object.assign(body, buildPostBody(rest));
+  if (status !== undefined) body.isDraft = status === "draft";
+  return client.put(`/v1/social-posts/${encodeURIComponent(id)}`, { body });
+}
+
 export const postTools = [
   defineTool({
     name: "create_post",
@@ -152,12 +183,16 @@ export const postTools = [
   defineTool({
     name: "update_post",
     description:
-      "Update an existing post by id — change the caption, media, target accounts, schedule or " +
-      "platform_configurations. Works on drafts and scheduled posts.",
+      "Update an existing post by id — change the caption, media, target accounts, schedule, external_id or " +
+      "platform_configurations. Works on drafts and scheduled posts. Only the fields you pass change: the " +
+      "server reads the live post and sends the full body (the API's PUT replaces the whole post), so " +
+      "external_id, media and per-platform captions you don't touch are kept. Passing platform_configurations " +
+      "or account_configurations replaces that whole object.",
     write: true,
     schema: z.object({
       id: z.string().describe("Social post id to update."),
       caption: z.string().optional().describe("New caption/text."),
+      external_id: z.string().optional().describe("New external_id (kept as is when omitted)."),
       social_accounts: z
         .array(z.string())
         .optional()
@@ -177,9 +212,7 @@ export const postTools = [
     }),
     handler: async (args, client) => {
       const { id, ...rest } = args;
-      return client.put(`/v1/social-posts/${encodeURIComponent(id)}`, {
-        body: buildPostBody(rest),
-      });
+      return mergedUpdate(client, id, rest);
     },
   }),
 
@@ -195,9 +228,7 @@ export const postTools = [
         .describe("New ISO-8601 timestamp to publish at (e.g. '2026-07-02T09:00:00Z')."),
     }),
     handler: async (args, client) => {
-      return client.put(`/v1/social-posts/${encodeURIComponent(args.id)}`, {
-        body: { scheduled_at: args.scheduled_at, status: "scheduled" },
-      });
+      return mergedUpdate(client, args.id, { scheduled_at: args.scheduled_at, status: "scheduled" });
     },
   }),
 

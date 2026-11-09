@@ -1,6 +1,6 @@
 {
   "name": "postforme-mcp-pro",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "mcpName": "io.github.helbertparanhos/postforme-mcp-pro",
   "description": "The most complete Post for Me MCP server — 27+ typed tools covering the entire Post for Me social media API (posts, scheduling, drafts, media upload, analytics, social accounts, previews, webhooks) across 9 platforms (Instagram, Facebook, TikTok, YouTube, X, LinkedIn, Pinterest, Bluesky, Threads), plus a postforme_raw escape hatch and a readonly safety mode.",
   "type": "module",

@@ -3,6 +3,21 @@
 All notable changes to this project are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/), versioning follows [SemVer](https://semver.org/).
 
+## [1.1.0] - 2026-11-09
+
+### Fixed
+- `update_post` and `reschedule_post` no longer wipe fields. The API's `PUT /v1/social-posts/:id` replaces the
+  whole post, so sending only the changed fields erased `external_id` (breaking webhook links such as the Horus
+  "Comenta PALAVRA" automation), media and per-platform captions. Both tools now read the live post and send the
+  full body with only the requested fields changed; `status: "draft"` maps to the API's `isDraft`.
+
+### Added
+- `update_post` accepts `external_id`.
+
+### Security
+- Account OAuth tokens (`access_token`, `refresh_token`) are masked as `[hidden]` in every tool response, so they
+  never reach transcripts or logs. Set `POSTFORME_SHOW_TOKENS=1` to see them.
+
 ## [1.0.0] - 2026-06-10
 
 ### Added
