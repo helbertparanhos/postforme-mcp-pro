@@ -60,7 +60,7 @@ export const accountTools = [
         .optional()
         .describe("The platform's native account id, if you have it."),
       metadata: z
-        .record(z.any())
+        .record(z.string(), z.any())
         .optional()
         .describe("Any additional credential/config fields the platform requires."),
     }),
@@ -78,7 +78,7 @@ export const accountTools = [
       username: z.string().optional().describe("New username/handle."),
       access_token: z.string().optional().describe("New OAuth access token."),
       refresh_token: z.string().optional().describe("New OAuth refresh token."),
-      metadata: z.record(z.any()).optional().describe("Fields to merge into the account metadata."),
+      metadata: z.record(z.string(), z.any()).optional().describe("Fields to merge into the account metadata."),
     }),
     handler: async (args, client) => {
       const { id, ...body } = args;

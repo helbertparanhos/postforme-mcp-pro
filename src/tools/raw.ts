@@ -21,7 +21,7 @@ export const rawTool = defineTool({
     path: z
       .string()
       .describe("Full path including version, starting with '/'. Example: '/v1/social-posts'."),
-    params: z.record(z.any()).optional().describe("Query string parameters."),
+    params: z.record(z.string(), z.any()).optional().describe("Query string parameters."),
     body: z.any().optional().describe("Request body (for POST/PUT/PATCH)."),
   }),
   handler: async (args, client) => {
