@@ -1,5 +1,4 @@
 import { z, ZodTypeAny } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
 import { PostForMeClient } from "./client.js";
 
 /** MCP text content result. */
@@ -45,7 +44,22 @@ export function defineTool<S extends ZodTypeAny>(def: ToolDef<S>): ToolDef<S> {
 
 /** Build the MCP `tools` listing entry (name/description/inputSchema). */
 export function toListing(def: AnyToolDef) {
-  const jsonSchema = zodToJsonSchema(def.schema, { target: "jsonSchema7" });
+  // Zod 4 emits JSON Schema natively (zod-to-json-schema only understands Zod 3).
+  // io "input" describes what the client sends (fields with a default stay optional).
+  const jsonSchema = z.toJSONSchema(def.schema, {
+    target: "draft-7",
+    io: "input",
+    unrepresentable: "any",
+    // In "input" mode Zod 4 omits additionalProperties on plain objects (they accept and strip
+    // extra keys). zod-to-json-schema emitted `false`, which tells the model not to invent fields,
+    // so keep it. Objects with .catchall/.passthrough stay open as before.
+    override: (ctx) => {
+      const zdef = (ctx.zodSchema as any)._zod?.def;
+      if (zdef?.type === "object" && zdef.catchall === undefined) {
+        ctx.jsonSchema.additionalProperties = false;
+      }
+    },
+  });
   return {
     name: def.name,
     description: def.description,
@@ -128,7 +142,7 @@ export const mediaItemSchema = z.object({
     .optional()
     .describe("Optional timestamp (ms) to auto-generate a video thumbnail from."),
   tags: z
-    .array(z.record(z.any()))
+    .array(z.record(z.string(), z.any()))
     .optional()
     .describe("Optional per-media tags (e.g. user/product tags) where the platform supports them."),
 });
@@ -188,7 +202,7 @@ export const accountConfigurationsSchema = z.array(
         .string()
         .describe("The connected account id this override applies to."),
       configuration: z
-        .record(z.any())
+        .record(z.string(), z.any())
         .describe("Overrides for this specific account (caption, media, platform options)."),
     })
     .catchall(z.any())

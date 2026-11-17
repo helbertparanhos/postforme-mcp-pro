@@ -3,6 +3,14 @@
 All notable changes to this project are documented here. Format based on
 [Keep a Changelog](https://keepachangelog.com/), versioning follows [SemVer](https://semver.org/).
 
+## [Unreleased]
+
+### Security
+- Zod 3 → 4 (`^4.6.7`) to close GHSA-mrhx-c7xc-m3w5 (high; fixed only in zod >= 4.6.6). The tool listing now
+  uses Zod 4's native `z.toJSONSchema()` and `zod-to-json-schema` was dropped. Tool input schemas are unchanged
+  for clients: same fields, types, enums, required lists, descriptions and `additionalProperties`; shared
+  sub-schemas are now inlined instead of `$ref` pointers.
+
 ## [1.1.0] - 2026-11-09
 
 ### Fixed
